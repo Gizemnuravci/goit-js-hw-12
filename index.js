@@ -1,0 +1,13 @@
+import{a as b,S as E,i as l}from"./assets/vendor-BDPjZNE_.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))i(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const a of o.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&i(a)}).observe(document,{childList:!0,subtree:!0});function s(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerPolicy&&(o.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?o.credentials="include":e.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function i(e){if(e.ep)return;e.ep=!0;const o=s(e);fetch(e.href,o)}})();const w="52408507-9b8d709dfd9c7c83170b7178c",H="https://pixabay.com/api/";async function h(r,t=1,s=40){return(await b.get(H,{params:{key:w,q:r,image_type:"photo",orientation:"horizontal",safesearch:!0,page:t,per_page:s}})).data}const S=document.getElementById("search-form"),g=document.querySelector(".gallery"),d=document.getElementById("loader"),m=document.querySelector(".load-more");let p=new E(".gallery a"),n=1,c="",u=0;S.addEventListener("submit",async r=>{if(r.preventDefault(),c=r.target.searchQuery.value.trim(),!!c){n=1,g.innerHTML="",m.classList.add("hidden"),d.classList.remove("hidden");try{const t=await h(c,n);if(u=t.totalHits,t.hits.length===0){l.error({message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"});return}f(t.hits),m.classList.remove("hidden"),y()}catch{l.error({message:"Error loading images",position:"topRight"})}finally{d.classList.add("hidden")}}});m.addEventListener("click",async()=>{n++,d.classList.remove("hidden");try{const r=await h(c,n);f(r.hits),p.refresh(),q(),y()}catch{l.error({message:"Error loading images",position:"topRight"})}finally{d.classList.add("hidden")}});function f(r){const t=r.map(({webformatURL:s,largeImageURL:i,tags:e,likes:o,views:a,comments:L,downloads:v})=>`
+<li class="gallery-item">
+  <a href="${i}">
+    <img src="${s}" alt="${e}" loading="lazy"/>
+  </a>
+  <div class="info">
+    <p>Likes: ${o}</p>
+    <p>Views: ${a}</p>
+    <p>Comments: ${L}</p>
+    <p>Downloads: ${v}</p>
+  </div>
+</li>`).join("");g.insertAdjacentHTML("beforeend",t),p.refresh()}function y(){const t=u>500?500:u,s=Math.ceil(t/40);n>=s&&(m.classList.add("hidden"),l.info({message:"We're sorry, but you've reached the end of search results.",position:"topRight"}))}function q(){const r=document.querySelectorAll(".gallery-item"),t=r[r.length-1],{height:s}=t.getBoundingClientRect();window.scrollBy({top:s*2,behavior:"smooth"})}
+//# sourceMappingURL=index.js.map
